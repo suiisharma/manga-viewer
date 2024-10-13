@@ -27,7 +27,7 @@ Make sure you have the following installed:
 1. **Clone the Repository**
   ```bash
   git clone https://github.com/suiisharma/manga-viewer.git
-  cd managa-viewer
+  cd manga-viewer
   ```
 
 2. **Install Dependencies**
