@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200" fill="none">
+  <!-- Outer Circle -->
+  <circle cx="100" cy="100" r="90" stroke="#FF4500" stroke-width="8" fill="white"/>
+  
+  <!-- Open Book -->
+  <path d="M50 70 Q60 50, 100 60 Q140 50, 150 70 L150 130 Q140 150, 100 140 Q60 150, 50 130 Z" fill="#FFD700" stroke="#FF4500" stroke-width="3"/>
+  
+  <!-- Manga Speech Bubble -->
+  <rect x="60" y="70" width="80" height="50" rx="8" ry="8" fill="#FF4500"/>
+  <polygon points="110,120 120,110 130,120" fill="#FF4500"/>
+  
+  <!-- Manga Text -->
+  <text x="100" y="95" font-family="Arial" font-size="20" fill="white" text-anchor="middle">Manga</text>
+
+  <!-- Book Spine Lines -->
+  <line x1="60" y1="75" x2="60" y2="125" stroke="#FF4500" stroke-width="2"/>
+  <line x1="140" y1="75" x2="140" y2="125" stroke="#FF4500" stroke-width="2"/>
+</svg>

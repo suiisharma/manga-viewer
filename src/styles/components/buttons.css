@@ -1,0 +1,29 @@
+.book-button,
+.chapter-button {
+    padding: 10px 20px; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: auto; 
+}
+
+.book-button:hover,
+.chapter-button:hover {
+    background-color: #f0f0f0;
+}
+
+.book-button.selected,
+.chapter-button.selected {
+    background-color: lightblue;
+}
+
+.book-button {
+    background-color: white;
+    color: black;
+}
+
+.chapter-button {
+    background-color: white;
+    color: black;
+}

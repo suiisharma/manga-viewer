@@ -1,0 +1,89 @@
+
+/* Layout for ChapterView */
+.chapter-view-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+}
+
+.chapter-image {
+    max-width: 100%;
+    max-height: 70vh;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.page-indicator {
+    margin-top: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+/* Book List */
+.book-list {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    overflow-x: auto;
+    /* Enable horizontal scrolling */
+    white-space: nowrap;
+    margin-bottom: 20px;
+}
+
+.book-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+}
+
+.book-button:hover {
+    background-color: #0056b3;
+}
+
+.book-button.selected {
+    background-color: #0056b3;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .chapter-view-container {
+        padding: 5px;
+    }
+
+    .book-button {
+        padding: 8px 16px;
+        font-size: 12px;
+    }
+
+    .chapter-image {
+        max-height: 70vh;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .book-button {
+        padding: 6px 12px;
+        font-size: 10px;
+    }
+
+    .chapter-image {
+        max-height: 60vh;
+    }
+}
+
+.chapter-list {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    margin: 10px 0;
+}
