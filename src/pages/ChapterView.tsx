@@ -1,12 +1,10 @@
 import "../styles/pages/ChapterView.css";
 
-
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { ChapterButton } from "../components/buttons";
 import Loading from "../components/loading";
-import {toast} from "react-hot-toast";
-
+import { toast } from "react-hot-toast";
 
 // Interfaces for Page and Chapter
 interface Page {
@@ -25,35 +23,29 @@ interface Chapter {
 }
 
 // Component to display a single chapter
-const ChapterView = ({ chapterIds }: { chapterIds: number[] }) => {
-    const [currentChapterIndex, setCurrentChapterIndex] = useState(0);
+const ChapterView = ({ chapterIds, currentChapterIndex, setCurrentChapterIndex }: { chapterIds: number[], currentChapterIndex: number, setCurrentChapterIndex: (index: number) => void }) => {
     const [chapter, setChapter] = useState<Chapter | null>(null);
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
-    const [redirectFromNextChapter, setRedirectFromNextChapter] = useState(false);
+    
 
     // Fetch chapter data when the current chapter index changes
     useEffect(() => {
+        // Fetch chapter data from the API
+        const fetchChapter = async (chapterId: number) => {
+            try {
+                const { data } = await axios.get<Chapter>(`http://52.195.171.228:8080/chapters/${chapterId}/`);
+                setChapter(data);
+                setCurrentPageIndex(0); // Reset page index to 0 when chapter changes
+            } catch (error) {
+                console.error("Error fetching chapter:", error);
+                toast.error("Failed to load chapter");
+            }
+        };
         if (chapterIds.length > 0) {
             fetchChapter(chapterIds[currentChapterIndex]);
         }
     }, [currentChapterIndex, chapterIds]);
 
-    // Fetch chapter data from the API
-    const fetchChapter = async (chapterId: number) => {
-        try {
-            const { data } = await axios.get<Chapter>(`http://52.195.171.228:8080/chapters/${chapterId}/`);
-            setChapter(data);
-            if (redirectFromNextChapter) {
-                setCurrentPageIndex(data.pages.length - 1);
-                setRedirectFromNextChapter(false);
-            } else {
-                setCurrentPageIndex(0);
-            }
-        } catch (error) {
-            console.error("Error fetching chapter:", error);
-            toast.error("Failed to load chapter");
-        }
-    };
 
     // Handle page navigation
     const handlePageClick = (direction: 'next' | 'prev') => {
@@ -70,7 +62,7 @@ const ChapterView = ({ chapterIds }: { chapterIds: number[] }) => {
                 setCurrentPageIndex(currentPageIndex - 1);
             } else if (currentChapterIndex > 0) {
                 setCurrentChapterIndex(currentChapterIndex - 1);
-                setRedirectFromNextChapter(true);
+                setCurrentPageIndex(chapter.pages.length - 1); // Set to last page of previous chapter
             }
         }
     };
@@ -80,20 +72,18 @@ const ChapterView = ({ chapterIds }: { chapterIds: number[] }) => {
         return <Loading></Loading>;
     }
 
-    const currentPage = chapter.pages[currentPageIndex];
-
     return (
         <>
-            <BookList 
-                chapterIds={chapterIds} 
-                currentChapterIndex={currentChapterIndex} 
-                setCurrentChapterIndex={setCurrentChapterIndex} 
+            <BookList
+                chapterIds={chapterIds}
+                currentChapterIndex={currentChapterIndex}
+                setCurrentChapterIndex={setCurrentChapterIndex}
             />
-            <ChapterViewContainer 
-                currentPage={currentPage} 
-                currentPageIndex={currentPageIndex} 
-                totalPages={chapter.pages.length} 
-                handlePageClick={handlePageClick} 
+            <ChapterViewContainer
+                currentPage={chapter.pages[currentPageIndex]}
+                currentPageIndex={currentPageIndex}
+                totalPages={chapter.pages.length}
+                handlePageClick={handlePageClick}
             />
         </>
     );
@@ -106,7 +96,7 @@ const BookList = ({ chapterIds, currentChapterIndex, setCurrentChapterIndex }: {
             {chapterIds.map((id, index) => (
                 <ChapterButton
                     key={id}
-                    title={id.toString()}
+                    title={(id - chapterIds[0] + 1).toString()}
                     isSelected={currentChapterIndex === index}
                     onClick={() => setCurrentChapterIndex(index)}
                 />
@@ -138,8 +128,5 @@ const ChapterViewContainer = ({ currentPage, currentPageIndex, totalPages, handl
         </div>
     );
 };
-
-
-
 
 export default ChapterView;

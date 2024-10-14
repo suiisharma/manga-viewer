@@ -16,6 +16,7 @@ interface Book {
 const BookList = () => {
     const [books, setBooks] = useState<Book[]>([]);
     const [selectedBook, setSelectedBook] = useState<number | null>(null);
+    const [currentChapterIndex, setCurrentChapterIndex] = useState(0);
 
     // Fetch books on component mount
     const fetchBooks = async () => {
@@ -33,6 +34,8 @@ const BookList = () => {
     useEffect(() => {
         fetchBooks();
     }, []);
+    useEffect(() => {setCurrentChapterIndex(0)}, [selectedBook]);
+    
     if(books.length === 0){
         return <div className="center">
             <Loading />
@@ -53,7 +56,7 @@ const BookList = () => {
 
             {/* Pass the selected book's chapter_ids to ChapterView */}
             {selectedBook && (
-                <ChapterView chapterIds={books.find((book) => book.id === selectedBook)?.chapter_ids || []} />
+                <ChapterView  setCurrentChapterIndex={setCurrentChapterIndex} currentChapterIndex={currentChapterIndex} chapterIds={books.find((book) => book.id === selectedBook)?.chapter_ids || []} />
             )}
         </div>
     );
